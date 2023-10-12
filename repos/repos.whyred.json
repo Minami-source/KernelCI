@@ -1,11 +1,11 @@
 [
   {
     "kernelSource": {
-      "name": "whyred-n-oss",
-      "repo": "https://github.com/Renzprjkt/kernel_n_whyred",
-      "branch": "whyred-n-oss",
-      "device": "whyred",
-      "defconfig": "whyred-perf_defconfig"
+      "name": "Monologue",
+      "repo": "https://github.com/Minami-source/android_kernel_xiaomi_rosy",
+      "branch": "lineage-20.0",
+      "device": "rosy",
+      "defconfig": "rosy-perf_defconfig"
   },
     "toolchains": [
       {
