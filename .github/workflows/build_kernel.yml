@@ -58,6 +58,12 @@ jobs:
           sudo apt-get install -y build-essential bc gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-arm-linux-gnueabi lld libssl-dev libfl-dev
           sudo apt-get install -y curl git ftp lftp wget libarchive-tools ccache python2 python2-dev
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
+
+
+      - name: "export build user"
+        run: |
+          export KBUILD_BUILD_USER=Renzprjkt
+          export KBUILD_BUILD_HOST=MacOS-10.15
         
 
       - name: "Setup Anykernel3"
