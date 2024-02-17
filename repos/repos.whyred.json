@@ -15,6 +15,7 @@
         "binPath": ["bin"]
       }
     ],
+    "ccache": true,
     "params": {
       "ARCH": "arm64",
       "CC": "clang-gengkapak/bin/clang",
