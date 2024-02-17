@@ -1,0 +1,45 @@
+[
+  {
+    "kernelSource": {
+      "name": "Never死んだ",
+      "repo": "https://github.com/mayuri-hikari/Sphinx-Dipper",
+      "branch": "Sphinx-11",
+      "device": "dipper",
+      "defconfig": "sphinx_defconfig"
+  },
+    "withKernelSU": false,
+    "toolchains": [
+      {
+        "repo": "https://gitlab.com/AnggaR96s/clang-gengkapak",
+        "branch": "master",
+        "name": "clang-gengkapak",
+        "binPath": ["bin"]
+      }
+    ],
+    "params": {
+      "ARCH": "arm64",
+      "CC": "clang-gengkapak/bin/clang",
+      "externalCommand": {
+        "CROSS_COMPILE": "clang-gengkapak/bin/aarch64-linux-gnu-",
+        "CROSS_COMPILE_ARM32": "clang-gengkapak/bin/arm-linux-gnueabi-",
+        "LD": "clang-gengkapak/bin/ld.lld",
+        "AR": "clang-gengkapak/bin/llvm-ar",
+        "NM": "clang-gengkapak/bin/llvm-nm",
+        "OBJCOPY": "clang-gengkapak/bin/llvm-objcopy",
+        "OBJDUMP": "clang-gengkapak/bin/llvm-objdump",
+        "READELF": "clang-gengkapak/bin/llvm-readelf",
+        "OBJSIZE": "clang-gengkapak/bin/llvm-size",
+        "STRIP": "clang-gengkapak/bin/llvm-strip",
+        "LDGOLD": "clang-gengkapak/bin/aarch64-linux-gnu-ld.gold",
+        "LLVM_AR": "clang-gengkapak/bin/llvm-ar",
+        "LLVM_DIS": "clang-gengkapak/bin/llvm-dis"
+      }
+    },
+    "AnyKernel3": {
+      "use": true,
+      "release": true,
+      "repo": "https://github.com/shenprjkt/AnyKernel3",
+      "branch": "master"
+    }
+  }
+]
