@@ -1,37 +1,26 @@
 [
   {
     "kernelSource": {
-      "name": "Monologue",
-      "repo": "https://github.com/Minami-source/android_kernel_xiaomi_rosy",
-      "branch": "lineage-20.0",
-      "device": "rosy",
-      "defconfig": "rosy-perf_defconfig"
+      "name": "Never死んだ",
+      "repo": "https://github.com/mayuri-hikari/android_kernel_xiaomi_oxygen",
+      "branch": "lineage-21",
+      "device": "ysl",
+      "defconfig": "vendor/msm8953-perf_defconfig"
   },
     "toolchains": [
       {
-        "repo": "https://github.com/kdrag0n/proton-clang",
-        "branch": "master",
-        "name": "proton-clang",
+        "repo": "https://gitlab.com/AnggaR96s/clang-gengkapak",
+        "branch": "main",
+        "name": "clang-gengkapak",
         "binPath": ["bin"]
       }
     ],
     "params": {
       "ARCH": "arm64",
-      "CC": "proton-clang/bin/clang",
+      "CC": "clang-gengkapak/bin/clang",
       "externalCommand": {
-        "CROSS_COMPILE": "proton-clang/bin/aarch64-linux-gnu-",
-        "CROSS_COMPILE_ARM32": "proton-clang/bin/arm-linux-gnueabi-",
-        "LD": "proton-clang/bin/ld.lld",
-        "AR": "proton-clang/bin/llvm-ar",
-        "NM": "proton-clang/bin/llvm-nm",
-        "OBJCOPY": "proton-clang/bin/llvm-objcopy",
-        "OBJDUMP": "proton-clang/bin/llvm-objdump",
-        "READELF": "proton-clang/bin/llvm-readelf",
-        "OBJSIZE": "proton-clang/bin/llvm-size",
-        "STRIP": "proton-clang/bin/llvm-strip",
-        "LDGOLD": "proton-clang/bin/aarch64-linux-gnu-ld.gold",
-        "LLVM_AR": "proton-clang/bin/llvm-ar",
-        "LLVM_DIS": "proton-clang/bin/llvm-dis"
+        "CROSS_COMPILE": "clang-gengkapak/bin/aarch64-linux-gnu-",
+        "CROSS_COMPILE_ARM32": "clang-gengkapak/bin/arm-linux-gnueabi-",
       }
     },
     "AnyKernel3": {
