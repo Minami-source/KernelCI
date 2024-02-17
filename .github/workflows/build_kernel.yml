@@ -49,22 +49,22 @@ jobs:
 
       DEFCONFIG_NAME: ${{ matrix.repos.kernelSource.defconfig }}
 
+      withKernelSU: ${{ matrix.repos.withKernelSU }}
       useAnykernel: ${{ matrix.repos.AnyKernel3.use }}
       release: ${{ matrix.repos.AnyKernel3.release }}
-    steps:
+    steps:  
       - name: "Setup Environment"
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential bc gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-arm-linux-gnueabi lld libssl-dev libfl-dev
           sudo apt-get install -y curl git ftp lftp wget libarchive-tools ccache python2 python2-dev
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
-
-
-      - name: "export build user"
-        run: |
-          export KBUILD_BUILD_USER=Renzprjkt
-          export KBUILD_BUILD_HOST=MacOS-10.15
         
+
+      - name: Set swap to 10G
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 10
 
       - name: "Setup Anykernel3"
         env:
@@ -171,6 +171,31 @@ jobs:
           echo "ARCH=$ARCH" >> $GITHUB_OUTPUT
           echo "args=$args" >> $GITHUB_OUTPUT
 
+      - name: "Update KernelSU"
+        working-directory: ${{ env.KERNEL_NAME }}
+        env:
+          arch: ${{ steps.generate-args.outputs.ARCH }}
+        if: ${{ env.withKernelSU == 'true' }}
+        run: |
+          if [ -d "./KernelSU" ]; then
+            rm -rf "./KernelSU"
+          fi
+          if [ -d "./drivers/kernelsu" ]; then
+            rm -rf "./drivers/kernelsu"
+          fi
+
+          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+
+      - name: Set Git Config
+        run: |
+          git config --global user.name "shenprjkt"
+          git config --global user.email "shenprjktplayground@gmail.com"
+
+      - name: Set KBUILD
+        run: |
+          export KBUILD_BUILD_USER=Mahiru30
+          export KBUILD_BUILD_HOST=kubuntu
+
       - name: "Make defconfig"
         working-directory: ${{ env.KERNEL_NAME }}
         env:
@@ -188,22 +213,12 @@ jobs:
           echo "PATH Variable: $PATH"
           make ${{ env.args }}
 
-      - name: "Upload Image"
-        uses: actions/upload-artifact@v3
-        env:
-          arch: ${{ steps.generate-args.outputs.ARCH }}
-        with:
-          name: Image-${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
-          path: ${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/Image
-          if-no-files-found: ignore
-          retention-days: 7
-
       - name: "Upload Image.gz"
         uses: actions/upload-artifact@v3
         env:
           arch: ${{ steps.generate-args.outputs.ARCH }}
         with:
-          name: Image.gz-${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
+          name: Image.gz{{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
           path: ${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/Image.gz
           if-no-files-found: ignore
           retention-days: 7
@@ -213,7 +228,7 @@ jobs:
         env:
           arch: ${{ steps.generate-args.outputs.ARCH }}
         with:
-          name: Image.gz-${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
+          name: Image.gz-dtb${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}-${{ env.builddate }}
           path: ${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/Image.gz-dtb
           if-no-files-found: ignore
           retention-days: 7
@@ -246,13 +261,10 @@ jobs:
         run: |
           ls -al
 
-          if [ -e "${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/Image" ]; then
-            cp -f ${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/Image ./AnyKernel3/
-          fi
           if [ -e "${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/Image.gz" ]; then
             cp -f ${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/Image.gz ./AnyKernel3/
           fi
-          if [ -e "${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/Image.gz" ]; then
+          if [ -e "${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/Image.gz-dtb" ]; then
             cp -f ${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/Image.gz-dtb ./AnyKernel3/
           fi
           if [ -e "${{ env.OUT_DIR }}/arch/${{ env.arch }}/boot/dtbo" ]; then
