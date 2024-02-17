@@ -1,7 +1,8 @@
 name: "Build kernels"
 
 env:
-  OUT_DIR: "${{ github.workspace }}/out"
+  CONFIGURATION: "repos.json"
+  OUT_DIR: "out"
 
 on:
   workflow_dispatch:
